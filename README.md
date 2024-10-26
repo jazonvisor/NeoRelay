@@ -71,4 +71,4 @@ ON – реле включено.
 2. [Вид снизу](Полезные картинки/2.jpg)
 3. [Назначение пинов](Полезные картинки/Appointment pins.jpg)
 4. [Схема](Полезные картинки/Schematic.png)
-5. [Подключение по USB-UART для смены прошивки контроллера](Полезные картинки/USB-UART-Conn.png)
+5. [Подключение по USB-UART для смены прошивки контроллера]([Полезные картинки/USB-UART-Conn.png](https://github.com/jazonvisor/NeoRelay/blob/main/%D0%9F%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8/USB-UART-Conn.png))
