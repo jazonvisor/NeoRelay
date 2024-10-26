@@ -1,5 +1,10 @@
+/*Подключаем клавиатурны модуль на пять кнопок KB45037*/
+#include "KB45037.h"
 /*Хех, работаем именно с этой библиотекой*/
 #include <Adafruit_NeoPixel.h>
+
+/*Пин для подключения клавиатурного модуля KB45037*/
+#define KEYPAD_PIN A0
 
 /*Задействуем определённый пин*/
 #define  BLOCK_RELAY_PIN 5
@@ -28,10 +33,15 @@
 #define  ON_ON_OFF_ON      ((uint32_t) 0x0D0D0D)
 #define  ON_ON_ON_OFF      ((uint32_t) 0x0E0E0E)*/
 
+/*Создаём объект для работы с клавиатурным модулем*/
+KB45037 Keypad(KEYPAD_PIN);
+
 /*Создаём объект класса Adafruit_NeoPixel, в этот раз вместо пиксельной ленты блок-модуль на 2 реле*/
 Adafruit_NeoPixel Relay(RELAY_QUANTITY, BLOCK_RELAY_PIN, NEO_GRB + NEO_KHZ800);
 
 void setup(){
+  /*Для отладки*/
+  Serial.begin(9600);
   /**/
   delay(3000);
   /*Инициализация блока*/
@@ -55,5 +65,27 @@ void setup(){
 }
 
 void loop(){
-  /*По братски, напиши управление здесь*/
+  /*Проверяем работу кнопок, если было событие нажатия*/
+  if(Keypad.KeyPressed()){
+    /*Получаем код нажатой кнопки*/
+    int key=Keypad.getKeyCode();
+    /*Проверяем код и выводим сообщение*/
+    switch(key){
+      case KEY_LEFT:
+        Serial.println("Нажатие кнопки \"Влево\"");
+        break;
+      case KEY_DOWN:
+        Serial.println("Нажатие кнопки \"Вниз\"");
+        break;
+      case KEY_UP:
+        Serial.println("Нажатие кнопки \"Вверх\"");
+        break;
+      case KEY_RIGHT:
+        Serial.println("Нажатие кнопки \"Вправо\"");
+        break;
+      case KEY_SELECT:
+        Serial.println("Нажатие кнопки \"Выбор\"");
+        break;
+    }
+  }
 }
