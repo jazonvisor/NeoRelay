@@ -4,13 +4,23 @@
 static uint32_t NeoRelayBlock::command=0x000000;
 
 /*Безусловные команды на включение/выключение*/
-static uint32_t NeoRelayBlock::allon=0x0f0f0f;
-static uint32_t NeoRelayBlock::alloff=0x000000;
+static const uint32_t NeoRelayBlock::allon=0x0f0f0f;
+static const uint32_t NeoRelayBlock::alloff=0x000000;
 
 /*Конструктор класса*/
 NeoRelayBlock::NeoRelayBlock(){
   /*При конструировании объекта, только в этот раз, режим прямого управления*/
   MODE=DIRECT;
+}
+
+/*Статический метод для инициализации блока, обязательно передаём объект по ссылке*/
+static void NeoRelayBlock::begin(Adafruit_NeoPixel& extObject){
+  /**/
+  extObject.begin();
+  /**/
+  extObject.setPixelColor(0,0x000000);
+  /*Применение полученной команды*/
+  extObject.show();    
 }
 
 /*Связывание с объектом NeoPixel*/
@@ -85,11 +95,14 @@ void NeoRelayBlock::DailyControl(uint32_t currtime){
 }
 
 /*Управление блоком, включение/выключение всех реле разом*/
-static void NeoRelayBlock::AllRelays(Adafruit_NeoPixel bindableObject,bool operation){
+static void NeoRelayBlock::AllRelays(Adafruit_NeoPixel& extObject,bool operation){
   /*Формирование команды*/
   //operation?command=command&(~alloff):command=command|allon;
   /*Посылка команды в блок*/
-  if(operation)bindableObject.setPixelColor(0,allon);else bindableObject.setPixelColor(0,alloff);
+  if(operation)
+    extObject.setPixelColor(0,allon);
+  else 
+    extObject.setPixelColor(0,alloff);
   /*Применение полученной команды*/
-  bindableObject.show();
+  extObject.show();
 }

@@ -26,13 +26,15 @@ class NeoRelayBlock{
   /*Для наглядности, команда инициализирована в HEX-формате*/
   static uint32_t command;
   /*Безусловные команды на включение/выключение всех реле разом*/
-  static uint32_t allon;
-  static uint32_t alloff;
+  static const uint32_t allon;
+  static const uint32_t alloff;
   /**/
   Adafruit_NeoPixel bindableObject;
 public:
   /*Конструктор класса*/
   NeoRelayBlock();
+  /*Статический метод для инициализации блока, обязательно передаём объект по ссылке*/
+  static void begin(Adafruit_NeoPixel&);
   /*Связывание с объектом NeoPixel*/
   void ConnectWith(Adafruit_NeoPixel);
   /*Установка адреса*/
@@ -46,7 +48,7 @@ public:
   /*Управление объектом, режим "Суточный таймер", получаем форматированное текущее время в виде шестизначного числа*/
   void DailyControl(uint32_t);
   /*Управление блоком, включение всех реле*/
-  static void AllRelays(Adafruit_NeoPixel,bool);
+  static void AllRelays(Adafruit_NeoPixel&,bool);
 };
 
 #endif
