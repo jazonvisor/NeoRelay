@@ -31,8 +31,7 @@ void setup(){
   /*Назначение адресов*/
   Relay1.SetAddress(RELAY1_ADDRESS);
   Relay2.SetAddress(RELAY2_ADDRESS);
-  /*Инициализация блока*/
-  NeoRelayBlock::begin(BlockRelay);
+  
   /*Установка времени включения/выключения*/
   Relay1.SetOnOffTime(193000,183000);
   Relay2.SetOnOffTime(120000,220000);
@@ -44,6 +43,9 @@ void setup(){
   /*Установка режима работы*/
   Relay1.SetMode(DAILY);
   Relay2.SetMode(DAILY);
+
+  /*Инициализация блока*/
+  NeoRelayBlock::begin(BlockRelay);
   /*Инициализация прерываний - раз в полсекунды*/
   Timer1.initialize(500000);
   /*Обработчик прерываний*/
@@ -54,11 +56,13 @@ void loop(){
   /*Проверяем работу кнопок, если было событие нажатия*/
   if(Keypad.KeyPressed())
     KeypadEventPressHandler(Keypad.getKeyCode());
-  /*Преобразуем тактовое время таймера в целое число*/
+  /**/
   if(Update==ON){
-    cTime=(hour*10000)+(minute*100)+second;
+    /*Преобразуем тактовое время таймера в целое число*/
+    cTime=(uint32_t(hour)*10000)+(uint32_t(minute)*100)+uint32_t(second);
+    Relay1.DailyControl(cTime);
+    Relay2.DailyControl(cTime);
     Update=OFF;
   }
-  Relay1.DailyControl(cTime);
-  Relay2.DailyControl(cTime);
+  
 }

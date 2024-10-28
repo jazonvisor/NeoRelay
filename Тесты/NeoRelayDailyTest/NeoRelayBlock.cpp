@@ -24,7 +24,7 @@ static void NeoRelayBlock::begin(Adafruit_NeoPixel& extObject){
 }
 
 /*Связывание с объектом NeoPixel*/
-void NeoRelayBlock::ConnectWith(Adafruit_NeoPixel& bindableObject){
+void NeoRelayBlock::ConnectWith(Adafruit_NeoPixel bindableObject){
   this->bindableObject=bindableObject;
 }
 
@@ -81,29 +81,25 @@ void NeoRelayBlock::DailyControl(uint32_t currtime){
     if(timeon<timeoff){
       /**/
       if(currtime>=timeon && currtime<timeoff)
-        /*Формирование команды управления - включение релейного модуля*/
-        command=command|address;
+        /*Здесь и далее, вызов метода прямого управления релейным модулем - Включение*/
+        DirectControl(ON);
       else
-        /*Формирование команды управления - выключение релейного модуля*/
-        command=command&(~address);
+        /*Выключение релейного модуля*/
+        DirectControl(OFF);
     }else{
       if(timeon>timeoff){
         if(currtime>=timeoff && currtime<timeon)
-          /*Формирование команды управления - выключение релейного модуля*/
-          command=command&(~address);
+          /*Выключение релейного модуля*/
+          DirectControl(OFF);
         else
-          /*Формирование команды управления - включение релейного модуля*/
-          command=command|address;
+          /*Включение релейного модуля*/
+          DirectControl(ON);
       }
     }/*Иначе, не управлять объектом никак.*/
   }else{
-    /*Формирование команды управления - выключение релейного модуля*/
-    command=command&(~address);
+    /*Выключение релейного модуля*/
+    DirectControl(OFF);
   }
-  /*Посылка команды в блок*/
-  bindableObject.setPixelColor(0,command);
-  /*Применение полученной команды*/
-  bindableObject.show();
 }
 
 /*Управление блоком, включение/выключение всех реле разом*/

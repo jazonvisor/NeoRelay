@@ -36,7 +36,7 @@ public:
   /*Статический метод для инициализации блока, обязательно передаём объект по ссылке*/
   static void begin(Adafruit_NeoPixel&);
   /*Связывание с объектом NeoPixel*/
-  void ConnectWith(Adafruit_NeoPixel&);
+  void ConnectWith(Adafruit_NeoPixel);
   /*Установка адреса*/
   void SetAddress(uint32_t);
   /*Установка времени включения/выключения*/
